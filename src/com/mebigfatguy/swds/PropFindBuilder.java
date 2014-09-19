@@ -77,7 +77,7 @@ public class PropFindBuilder {
 		Element response = d.createElementNS(DAV_NS, "d:response");
 		parent.appendChild(response);
 		Element href = d.createElementNS(DAV_NS, "d:href");
-		href.appendChild(d.createTextNode(serverPath + resourcePath.getPath().substring(rootPath.getPath().length())));
+		href.appendChild(d.createTextNode(serverPath + resource.getPath().substring(rootPath.getPath().length())));
 		response.appendChild(href);
 		Element propstat = d.createElementNS(DAV_NS, "d:propstat");
 		response.appendChild(propstat);
