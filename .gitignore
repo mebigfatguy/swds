@@ -1,2 +1,5 @@
 war/WEB-INF/classes
 lib
+*.war
+version.properties
+
