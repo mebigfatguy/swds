@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -90,10 +91,27 @@ public class WebDavServlet extends HttpServlet {
 				
 			break;
 			
+			case "GET":
+				File file = new File(rootDirectory, req.getPathInfo());
+				try (InputStream is = new BufferedInputStream(new FileInputStream(file));
+					 OutputStream os = new BufferedOutputStream(resp.getOutputStream())) {
+					resp.setStatus(MULTI_STATUS);
+					byte[] data = new byte[10240];
+					int len = is.read(data);
+					while (len >= 0) {
+						os.write(data, 0, len);
+						len = is.read(data);
+					}
+				}
+			break;
+			
+			case "USERINFO":
+			break;
+			
 			default:
 				
 				try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(resp.getOutputStream()))) {
-					bw.write("Server Up");
+					bw.write("Unprocessed METHOD: " + req.getMethod());
 				}
 				break;
 		}
