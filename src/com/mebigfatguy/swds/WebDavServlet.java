@@ -30,6 +30,8 @@ import org.xml.sax.SAXException;
 
 public class WebDavServlet extends HttpServlet {
 
+	private static final int MULTI_STATUS = 207;
+	
 	private File rootDirectory;
 	
 	@Override
@@ -61,7 +63,7 @@ public class WebDavServlet extends HttpServlet {
 		switch (method) {
 			
 			case "OPTIONS":
-				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.setStatus(MULTI_STATUS);
 			break;
 			
 			case "PROPFIND":
@@ -77,7 +79,7 @@ public class WebDavServlet extends HttpServlet {
 					PropFindParser p = new PropFindParser();
 					p.parse(is);
 					props = p.getProperties();
-					resp.setStatus(HttpServletResponse.SC_OK);
+					resp.setStatus(MULTI_STATUS);
 					resp.setContentType("application/xml");
 					PropFindBuilder b = new PropFindBuilder(serverPath, rootDirectory, new File(rootDirectory, req.getPathInfo()), props, Integer.parseInt(depth));
 					b.generate(os);
