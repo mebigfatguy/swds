@@ -24,11 +24,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class PropFindBuilder {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PropFindBuilder.class);
+	
 	private static final String DAV_NS = "DAV:";
 	private String serverPath;
 	private File rootPath;
@@ -140,6 +144,10 @@ public class PropFindBuilder {
 				break;
 				
 				case "executable":
+				break;
+				
+				default:
+					LOGGER.warn("Unrecognized webdav property {}", prop);
 				break;
 			}
 		}

@@ -47,6 +47,8 @@
 
 	<path id="swds.classpath">
 		<pathelement location="${lib.dir}/javax.servlet-api-${javax.servlet-api.version}.jar" />
+		<pathelement location="${lib.dir}/slf4j-api-${slf4j-api.version}.jar" />
+		<pathelement location="${lib.dir}/logback-core-${logback-core.version}.jar" />
 	</path>
 	
 	<target name="info">

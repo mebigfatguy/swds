@@ -106,14 +106,14 @@ public class WebDavServlet extends HttpServlet {
 			break;
 			
 			case "USERINFO":
+				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			break;
 			
 			default:
-				
 				try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(resp.getOutputStream()))) {
 					bw.write("Unprocessed METHOD: " + req.getMethod());
 				}
-				break;
+			break;
 		}
 	}
 	
