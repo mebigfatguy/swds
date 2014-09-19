@@ -71,10 +71,13 @@ public class PropFindBuilder {
 		t.transform(new DOMSource(d),  new StreamResult(os));
 		
 		StringWriter sw = new StringWriter();
-		t.transform(new DOMSource(d), new StreamResult(sw));
-		String s = sw.toString();
 		
-		System.out.println(s);
+		if (LOGGER.isDebugEnabled()) {
+			t.transform(new DOMSource(d), new StreamResult(sw));
+			String s = sw.toString();
+			
+			LOGGER.debug("PROPFIND response: \n{}", s);
+		}
 	}
 	
 	private void appendResponse(Document d, Element parent, File resource) throws IOException {

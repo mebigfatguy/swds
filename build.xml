@@ -83,6 +83,15 @@
 			<classpath refid="swds.classpath" />
 		</javac>
 	</target>
+	
+	<target name="resources" depends="-init" description="copies files into the war">
+		<copy todir="${web-inf-lib.dir}">
+			<fileset dir="${lib.dir}">
+				<include name="slf4j-api-${slf4j-api.version}.jar"/>
+				<include name="logback-core-${logback-core.version}.jar"/>
+			</fileset>
+		</copy>
+	</target>
 
 	<target name="srcjar" description="builds the source distribution zip file">
 		<zip destfile="${basedir}/swds-${swds.version}-sources.jar">
@@ -108,7 +117,7 @@
 		</javadoc>
 	</target>
 
-	<target name="build" depends="clean, -init, compile"
+	<target name="build" depends="clean, -init, resources, compile"
 		description="compiles the code">
 	</target>
 
