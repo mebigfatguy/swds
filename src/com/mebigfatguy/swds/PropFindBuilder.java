@@ -3,6 +3,7 @@ package com.mebigfatguy.swds;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,13 +29,16 @@ import org.w3c.dom.Element;
 
 public class PropFindBuilder {
 
-	public File rootPath;
+	private static final String DAV_NS = "DAV:";
+	private String serverPath;
+	private File rootPath;
 	private File resourcePath;
 	private Set<String> properties;
 	private int depth;
 	private DateFormat df;
 	
-	public PropFindBuilder(File root, File resource, Set<String> props, int exploreDepth) {
+	public PropFindBuilder(String server, File root, File resource, Set<String> props, int exploreDepth) {
+		serverPath = server;
 		rootPath = root;
 		resourcePath = resource;
 		properties = props;
@@ -47,7 +51,7 @@ public class PropFindBuilder {
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document d = db.newDocument();
 		
-		Element multistatus = d.createElementNS("DAV", "d:multistatus");
+		Element multistatus = d.createElementNS(DAV_NS, "d:multistatus");
 		d.appendChild(multistatus);
 		appendResponse(d, multistatus, resourcePath);
 		
@@ -62,24 +66,41 @@ public class PropFindBuilder {
 		Transformer t = tf.newTransformer();
 		t.transform(new DOMSource(d),  new StreamResult(os));
 		
+		StringWriter sw = new StringWriter();
+		t.transform(new DOMSource(d), new StreamResult(sw));
+		String s = sw.toString();
+		
+		System.out.println(s);
 	}
 	
 	private void appendResponse(Document d, Element parent, File resource) throws IOException {
-		Element response = d.createElementNS("DAV", "d:response");
+		Element response = d.createElementNS(DAV_NS, "d:response");
 		parent.appendChild(response);
-		Element href = d.createElementNS("DAV", "d.href");
-		href.appendChild(d.createTextNode(resourcePath.getPath().substring(rootPath.getPath().length())));
+		Element href = d.createElementNS(DAV_NS, "d:href");
+		href.appendChild(d.createTextNode(serverPath + resourcePath.getPath().substring(rootPath.getPath().length())));
 		response.appendChild(href);
-		Element propstat = d.createElementNS("DAV", "d:propstat");
+		Element propstat = d.createElementNS(DAV_NS, "d:propstat");
 		response.appendChild(propstat);
-		Element prop = d.createElementNS("DAV", "d:prop");
+		Element prop = d.createElementNS(DAV_NS, "d:prop");
 		propstat.appendChild(prop);
 		Map<String, String> values = populateValues(resource);
 		for (Map.Entry<String, String> entry : values.entrySet()) {
-			Element oneProp = d.createElementNS("DAV", "d:" + entry.getKey());
-			oneProp.appendChild(d.createTextNode(entry.getValue()));
+			String key = entry.getKey();
+			Element oneProp = d.createElementNS(DAV_NS, "d:" + key);
+			if (key.equals("resourcetype")) {
+				if (entry.getValue().equals("collection")) {
+					Element collection = d.createElementNS(DAV_NS, "d:collection");
+					oneProp.appendChild(collection);
+				}				
+			} else {
+				oneProp.appendChild(d.createTextNode(entry.getValue()));
+			}
 			prop.appendChild(oneProp);
 		}
+		Element status = d.createElementNS(DAV_NS, "d:status");
+		status.appendChild(d.createTextNode("HTTP/1.1 200 OK"));
+		propstat.appendChild(status);
+		
 	}
 	
 	private Map<String, String> populateValues(File resource) throws IOException {
@@ -88,7 +109,9 @@ public class PropFindBuilder {
 			switch (prop) {
 				case "resourcetype":
 					if (resource.isDirectory()) {
-						values.put(prop, "container");
+						values.put(prop, "collection");
+					} else {
+						values.put(prop, "item");
 					}
 				break;
 				

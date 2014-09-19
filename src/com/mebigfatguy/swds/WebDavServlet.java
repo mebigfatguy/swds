@@ -53,6 +53,8 @@ public class WebDavServlet extends HttpServlet {
 		
 		resp.setHeader("DAV", "1,2");
 		
+		String serverPath = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort()  + req.getContextPath() + req.getServletPath();
+		
 		Map<String, String> headers = getRequestHeaders(req);
 		
 		String method = req.getMethod();
@@ -76,7 +78,8 @@ public class WebDavServlet extends HttpServlet {
 					p.parse(is);
 					props = p.getProperties();
 					resp.setStatus(HttpServletResponse.SC_OK);
-					PropFindBuilder b = new PropFindBuilder(rootDirectory, new File(rootDirectory, req.getPathInfo()), props, Integer.parseInt(depth));
+					resp.setContentType("application/xml");
+					PropFindBuilder b = new PropFindBuilder(serverPath, rootDirectory, new File(rootDirectory, req.getPathInfo()), props, Integer.parseInt(depth));
 					b.generate(os);
 				
 				} catch (IllegalArgumentException | ParserConfigurationException | SAXException | TransformerException se) {
