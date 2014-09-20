@@ -49,6 +49,7 @@
 		<pathelement location="${lib.dir}/javax.servlet-api-${javax.servlet-api.version}.jar" />
 		<pathelement location="${lib.dir}/slf4j-api-${slf4j-api.version}.jar" />
 		<pathelement location="${lib.dir}/logback-core-${logback-core.version}.jar" />
+		<pathelement location="${lib.dir}/logback-classic-${logback-classic.version}.jar" />
 	</path>
 	
 	<target name="info">
@@ -89,6 +90,7 @@
 			<fileset dir="${lib.dir}">
 				<include name="slf4j-api-${slf4j-api.version}.jar"/>
 				<include name="logback-core-${logback-core.version}.jar"/>
+				<include name="logback-classic-${logback-classic.version}.jar"/>
 			</fileset>
 		</copy>
 	</target>
