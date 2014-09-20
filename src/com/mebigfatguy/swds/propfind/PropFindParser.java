@@ -1,4 +1,4 @@
-package com.mebigfatguy.swds;
+package com.mebigfatguy.swds.propfind;
 
 import java.io.IOException;
 import java.io.InputStream;

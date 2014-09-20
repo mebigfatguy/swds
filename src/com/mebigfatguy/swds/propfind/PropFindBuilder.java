@@ -1,4 +1,4 @@
-package com.mebigfatguy.swds;
+package com.mebigfatguy.swds.propfind;
 
 import java.io.File;
 import java.io.IOException;

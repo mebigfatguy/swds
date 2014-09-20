@@ -18,6 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import com.mebigfatguy.swds.propfind.PropFindBuilder;
+import com.mebigfatguy.swds.propfind.PropFindParser;
+
 public class PropFindHandler implements HttpHandler {
 
 	private Logger LOGGER = LoggerFactory.getLogger(PropFindHandler.class);
