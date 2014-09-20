@@ -69,10 +69,9 @@ public class PropFindBuilder {
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
 		t.transform(new DOMSource(d),  new StreamResult(os));
-		
-		StringWriter sw = new StringWriter();
-		
+				
 		if (LOGGER.isDebugEnabled()) {
+			StringWriter sw = new StringWriter();
 			t.transform(new DOMSource(d), new StreamResult(sw));
 			String s = sw.toString();
 			
