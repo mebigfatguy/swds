@@ -121,8 +121,12 @@ public class PropFindBuilder {
 					}
 				break;
 				
-				case "quota-used-bytes":
+				case "quota-available-bytes":
 					values.put(prop, String.valueOf(resource.getUsableSpace()));
+				break;
+				
+				case "quota-used-bytes":
+					values.put(prop, String.valueOf(resource.length()));
 				break;
 				
 				case "creationdate":
