@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class WebDavServlet extends HttpServlet {
 
+	private static final long serialVersionUID = -2234068300109718362L;
+
 	private static final Map<String, HttpHandler> HANDLERS = new HashMap<String, HttpHandler>();
 	static {
 		HANDLERS.put("OPTIONS", new OptionsHandler());
