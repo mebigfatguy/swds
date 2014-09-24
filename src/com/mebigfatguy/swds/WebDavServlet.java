@@ -41,6 +41,8 @@ public class WebDavServlet extends HttpServlet {
 		HANDLERS.put("OPTIONS", new OptionsHandler());
 		HANDLERS.put("PROPFIND",  new PropFindHandler());
 		HANDLERS.put("GET", new GetHandler());
+		HANDLERS.put("PUT",  new PutHandler());
+		HANDLERS.put("LOCK", new LockHandler());
 	}
 	
 	private File rootDirectory;

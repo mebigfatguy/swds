@@ -1,0 +1,17 @@
+<?xml-stylesheet type="text/xsl" href="lockresponse.xslt"?><d:prop xmlns:d="DAV:">
+   <d:lockdiscovery>
+        <d:activelock>
+             <d:locktype></d:locktype>
+             <d:lockscope></d:lockscope>
+             <d:depth></d:depth>
+             <d:owner>
+                  <d:href></d:href>
+             </d:owner>
+             <d:timeout></d:timeout>
+             <d:locktoken>
+                  <d:href>
+                  </d:href>
+             </d:locktoken>
+        </d:activelock>
+   </d:lockdiscovery>
+</d:prop>

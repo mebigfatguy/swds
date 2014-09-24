@@ -31,7 +31,7 @@
 	<property name="javadoc.dir" value="${basedir}/javadoc" />
 	<property name="javac.source" value="1.7" />
 	<property name="javac.target" value="1.7" />
-	<property name="javac.deprecation" value="on" />
+	<property name="javac.deprecation" value="on"/>
 	<property name="javac.debug" value="on" />
 
 	<property name="swds.version" value="0.2.0" />
@@ -91,6 +91,12 @@
 				<include name="slf4j-api-${slf4j-api.version}.jar"/>
 				<include name="logback-core-${logback-core.version}.jar"/>
 				<include name="logback-classic-${logback-classic.version}.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.xslt" />
 			</fileset>
 		</copy>
 	</target>

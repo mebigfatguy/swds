@@ -16,6 +16,7 @@
  */
 package com.mebigfatguy.swds.propfind;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -44,6 +45,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.mebigfatguy.swds.utils.TeeOutputStream;
 
 public class PropFindBuilder {
 
@@ -84,14 +87,18 @@ public class PropFindBuilder {
 		
 		TransformerFactory tf = TransformerFactory.newInstance();
 		Transformer t = tf.newTransformer();
+		
+		ByteArrayOutputStream baos = null;
+		if (LOGGER.isDebugEnabled()) {
+			baos = new ByteArrayOutputStream();
+			os = new TeeOutputStream(os, baos);
+		}
+		
 		t.transform(new DOMSource(d),  new StreamResult(os));
 				
 		if (LOGGER.isDebugEnabled()) {
-			StringWriter sw = new StringWriter();
-			t.transform(new DOMSource(d), new StreamResult(sw));
-			String s = sw.toString();
-			
-			LOGGER.debug("PROPFIND response: \n{}", s);
+			baos.close();
+			LOGGER.debug("PROPFIND response: \n{}", new String(baos.toByteArray()));
 		}
 	}
 	
