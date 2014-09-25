@@ -26,9 +26,27 @@
 		</xsl:copy>
 	</xsl:template>
 	
-	<xsl:template match="d:deptch">
+	<xsl:template match="d:depth">
 		<xsl:copy>
-			<xsl:value-of select="$lockDepth}"/>
+			<xsl:value-of select="$lockDepth"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="d:owner/d:href">
+		<xsl:copy>
+			<xsl:value-of select="$lockOwner"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="d:timeout">
+		<xsl:copy>
+			<xsl:value-of select="$lockTimeout"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="d:locktoken/d:href">
+		<xsl:copy>
+			<xsl:value-of select="$lockToken"/>
 		</xsl:copy>
 	</xsl:template>
 	

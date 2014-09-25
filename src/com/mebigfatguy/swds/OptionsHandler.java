@@ -23,9 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OptionsHandler implements HttpHandler {
 
-	@Override
-	public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) {
-		resp.setHeader("DAV", "1,2");
-		resp.setStatus(MULTI_STATUS);
-	}
+    @Override
+    public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) {
+        resp.setStatus(MULTI_STATUS);
+    }
 }

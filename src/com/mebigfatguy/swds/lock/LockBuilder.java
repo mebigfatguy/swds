@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.ErrorListener;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -40,6 +40,7 @@ public class LockBuilder {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LockBuilder.class);
 	
+	private static final String LOCK_TOKEN_PROTOCOL = "opaquelocktoken:";
 	private static final String DEFAULT_TIMEOUT = "Second-604800";
 	
 	private File resourcePath;
@@ -50,9 +51,9 @@ public class LockBuilder {
 		info = lockInfo;
 	}
 	
-	public void generate(OutputStream os) throws IOException, ParserConfigurationException, TransformerException {
+	public void generate(HttpServletResponse resp, OutputStream os) throws IOException, ParserConfigurationException, TransformerException {
 
-		
+		resp.setHeader("Lock-Token", LOCK_TOKEN_PROTOCOL + info.getToken());
 		try (InputStream xsl = LockBuilder.class.getResourceAsStream("/com/mebigfatguy/swds/lock/lockresponse.xslt");
 			 InputStream xml = LockBuilder.class.getResourceAsStream("/com/mebigfatguy/swds/lock/lockresponse.xml")) {
 			TransformerFactory tf = TransformerFactory.newInstance();
@@ -62,7 +63,7 @@ public class LockBuilder {
 			t.setParameter("lockDepth", info.getDepth() == Depth.self ? "0" : "infinity");
 			t.setParameter("lockOwner", info.getOwner());
 			t.setParameter("lockTimeout", DEFAULT_TIMEOUT);
-			t.setParameter("lockToken", "opaquelocktoken:e71d4fae-5dec-22d6-fea5-00a0c91e6be4");
+			t.setParameter("lockToken", LOCK_TOKEN_PROTOCOL + info.getToken());
 			
 			ByteArrayOutputStream baos = null;
 

@@ -16,11 +16,8 @@
  */
 package com.mebigfatguy.swds;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,39 +26,38 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mebigfatguy.swds.lock.LockBuilder;
-import com.mebigfatguy.swds.lock.LockInfo;
 import com.mebigfatguy.swds.lock.LockManager;
-import com.mebigfatguy.swds.lock.LockParser;
 
-public class LockHandler implements HttpHandler {
+public class UnlockHandler implements HttpHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LockHandler.class);
 
     @Override
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) throws ServletException {
         try {
-            try (InputStream is = new BufferedInputStream(req.getInputStream());
-                 OutputStream os = new BufferedOutputStream(resp.getOutputStream())) {
-                LockParser p = new LockParser();
-                p.parse(is);
-                LockInfo info = p.getLockInfo();
+            Map<String, String> headers = HeaderParser.getRequestHeaders(req);
+            String token = headers.get("lock-token");
+            token = token.substring(token.indexOf(":") + 1);
+            if (token.endsWith(">"))
+                token = token.substring(0, token.length() - 1);
 
+            if (token == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
                 LockManager lm = LockManager.getInstance();
                 String resource = req.getPathInfo();
-                if (lm.isLocked(resource)) {
-                    resp.setStatus(LOCKED_STATUS);
+
+                String existingToken = lm.getToken(resource);
+                if ((existingToken == null) || (!existingToken.equals(token))) {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 } else {
-                    lm.addLock(resource, info.getToken());
-                    resp.setStatus(HttpServletResponse.SC_OK);
-                    resp.setContentType("text/xml");
-                    LockBuilder b = new LockBuilder(new File(rootDirectory, req.getPathInfo()), info);
-                    b.generate(resp, os);
+                    lm.removeLock(resource);
+                    resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to process LOCK request on {}", req.getPathInfo(), e);
-            throw new ServletException("Failed to process LOCK request", e);
+            LOGGER.error("Failed to process UNLOCK request on {}", req.getPathInfo(), e);
+            throw new ServletException("Failed process UNLOCK request", e);
         }
     }
 }
