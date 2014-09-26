@@ -49,6 +49,7 @@ public class WebDavServlet extends HttpServlet {
         HANDLERS.put(WebDavMethods.PUT, new PutHandler());
         HANDLERS.put(WebDavMethods.LOCK, new LockHandler());
         HANDLERS.put(WebDavMethods.UNLOCK, new UnlockHandler());
+        HANDLERS.put(WebDavMethods.VERSIONCONTROL, new VersionControlHandler());
     }
 
     private File rootDirectory;
