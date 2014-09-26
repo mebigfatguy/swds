@@ -38,6 +38,7 @@ public class WebDavServlet extends HttpServlet {
 	private static final long serialVersionUID = -2234068300109718362L;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WebDavServlet.class);
+	private static final String ROOT_DIR_PROP = "rootDir";
 
     private static final Map<WebDavMethods, HttpHandler> HANDLERS = new HashMap<>();
     static {
@@ -57,14 +58,14 @@ public class WebDavServlet extends HttpServlet {
         try {
             Context ctx = new InitialContext();
             Context envCtx = (Context) ctx.lookup("java:comp/env");
-            rootDirectory = new File((String) envCtx.lookup("rootDir"));
+            rootDirectory = new File((String) envCtx.lookup(ROOT_DIR_PROP));
 
             if (!rootDirectory.isDirectory()) {
-                throw new ServletException("'rootDir' " + rootDirectory + " is not a directory.");
+                throw new ServletException(String.format("'%s' (%s) is not a directory.", ROOT_DIR_PROP, rootDirectory));
             }
 
         } catch (NamingException e) {
-            throw new ServletException("Failed looking up jndi property 'rootDir'", e);
+            throw new ServletException(String.format("Failed looking up jndi property '%s'", ROOT_DIR_PROP), e);
         }
     }
 
