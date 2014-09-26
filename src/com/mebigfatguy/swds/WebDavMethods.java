@@ -16,6 +16,26 @@
  */
 package com.mebigfatguy.swds;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum WebDavMethods {
-	OPTIONS, PROPFIND, GET, HEAD, PUT, LOCK, UNLOCK;
+	OPTIONS("OPTIONS"), PROPFIND("PROPFIND"), GET("GET"), HEAD("HEAD"), PUT("PUT"), LOCK("LOCK"), UNLOCK("UNLOCK"), VERSIONCONTROL("VERSION-CONTROL");
+	
+	private static final Map<String, WebDavMethods> stringToMethod = new HashMap<>();
+	static {
+		for (WebDavMethods m : WebDavMethods.values()) {
+			stringToMethod.put(m.rawMethod, m);
+		}
+	}
+	
+	private String rawMethod;
+	
+	WebDavMethods(String method) {
+		rawMethod = method;
+	}
+	
+	public static WebDavMethods fromString(String m) {
+		return stringToMethod.get(m);
+	}
 }

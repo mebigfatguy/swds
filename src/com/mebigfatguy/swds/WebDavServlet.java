@@ -74,7 +74,7 @@ public class WebDavServlet extends HttpServlet {
 
         resp.setHeader("DAV", "1,2");
 
-        HttpHandler handler = HANDLERS.get(WebDavMethods.valueOf(req.getMethod()));
+        HttpHandler handler = HANDLERS.get(WebDavMethods.fromString(req.getMethod()));
         if (handler == null) {
 
             LOGGER.error("Failed to process unexpected method {}", req.getMethod());
