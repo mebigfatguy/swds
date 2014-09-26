@@ -16,36 +16,16 @@
  */
 package com.mebigfatguy.swds;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
 
-public enum WebDavMethods {
-	OPTIONS("OPTIONS"), 
-	PROPFIND("PROPFIND"), 
-	GET("GET"), 
-	HEAD("HEAD"), 
-	PUT("PUT"), 
-	LOCK("LOCK"), 
-	UNLOCK("UNLOCK"), 
-	VERSIONCONTROL("VERSION-CONTROL"),
-	CHECKOUT("CHECKOUT"),
-	CHECKIN("CHECKIN"),
-	UNCHECKOUT("UNCHECKOUT");
-	
-	private static final Map<String, WebDavMethods> stringToMethod = new HashMap<>();
-	static {
-		for (WebDavMethods m : WebDavMethods.values()) {
-			stringToMethod.put(m.rawMethod, m);
-		}
-	}
-	
-	private String rawMethod;
-	
-	WebDavMethods(String method) {
-		rawMethod = method;
-	}
-	
-	public static WebDavMethods fromString(String m) {
-		return stringToMethod.get(m);
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class UncheckoutHandler implements HttpHandler {
+
+	@Override
+	public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) throws ServletException {
+		resp.setStatus(HttpServletResponse.SC_OK);
 	}
 }
