@@ -35,17 +35,19 @@ import org.slf4j.LoggerFactory;
 
 public class WebDavServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebDavServlet.class);
+	private static final long serialVersionUID = -2234068300109718362L;
 
-    private static final Map<String, HttpHandler> HANDLERS = new HashMap<String, HttpHandler>();
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebDavServlet.class);
+
+    private static final Map<WebDavMethods, HttpHandler> HANDLERS = new HashMap<>();
     static {
-        HANDLERS.put("OPTIONS", new OptionsHandler());
-        HANDLERS.put("PROPFIND", new PropFindHandler());
-        HANDLERS.put("GET", new GetHandler());
-        HANDLERS.put("HEAD", new HeadHandler());
-        HANDLERS.put("PUT", new PutHandler());
-        HANDLERS.put("LOCK", new LockHandler());
-        HANDLERS.put("UNLOCK", new UnlockHandler());
+        HANDLERS.put(WebDavMethods.OPTIONS, new OptionsHandler());
+        HANDLERS.put(WebDavMethods.PROPFIND, new PropFindHandler());
+        HANDLERS.put(WebDavMethods.GET, new GetHandler());
+        HANDLERS.put(WebDavMethods.HEAD, new HeadHandler());
+        HANDLERS.put(WebDavMethods.PUT, new PutHandler());
+        HANDLERS.put(WebDavMethods.LOCK, new LockHandler());
+        HANDLERS.put(WebDavMethods.UNLOCK, new UnlockHandler());
     }
 
     private File rootDirectory;
@@ -71,7 +73,7 @@ public class WebDavServlet extends HttpServlet {
 
         resp.setHeader("DAV", "1,2");
 
-        HttpHandler handler = HANDLERS.get(req.getMethod());
+        HttpHandler handler = HANDLERS.get(WebDavMethods.valueOf(req.getMethod()));
         if (handler == null) {
 
             LOGGER.error("Failed to process unexpected method {}", req.getMethod());
