@@ -19,15 +19,19 @@ package com.mebigfatguy.swds;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import com.mebigfatguy.swds.lock.LockBuilder;
 import com.mebigfatguy.swds.lock.LockInfo;
@@ -59,7 +63,7 @@ public class LockHandler implements HttpHandler {
                     b.generate(resp, os);
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | TransformerException | ParserConfigurationException | SAXException e) {
             LOGGER.error("Failed to process LOCK request on {}", req.getPathInfo(), e);
             throw new ServletException("Failed to process LOCK request", e);
         }
