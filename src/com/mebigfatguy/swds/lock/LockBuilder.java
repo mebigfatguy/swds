@@ -17,14 +17,12 @@
 package com.mebigfatguy.swds.lock;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -44,15 +42,13 @@ public class LockBuilder {
 	private static final String LOCK_TOKEN_PROTOCOL = "opaquelocktoken:";
 	private static final String DEFAULT_TIMEOUT = "Second-604800";
 	
-	private File resourcePath;
 	private LockInfo info;
 	
-	public LockBuilder(File resource, LockInfo lockInfo) {
-		resourcePath = resource;
+	public LockBuilder(LockInfo lockInfo) {
 		info = lockInfo;
 	}
 	
-	public void generate(HttpServletResponse resp, OutputStream os) throws IOException, ParserConfigurationException, TransformerException {
+	public void generate(HttpServletResponse resp, OutputStream os) throws IOException, TransformerException {
 
 		resp.setHeader("Lock-Token", LOCK_TOKEN_PROTOCOL + info.getToken());
 		try (InputStream xsl = LockBuilder.class.getResourceAsStream("/com/mebigfatguy/swds/lock/lockresponse.xslt");

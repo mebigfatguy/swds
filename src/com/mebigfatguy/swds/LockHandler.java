@@ -59,11 +59,11 @@ public class LockHandler implements HttpHandler {
                     lm.addLock(resource, info.getToken());
                     resp.setStatus(HttpServletResponse.SC_OK);
                     resp.setContentType("text/xml");
-                    LockBuilder b = new LockBuilder(new File(rootDirectory, req.getPathInfo()), info);
+                    LockBuilder b = new LockBuilder(info);
                     b.generate(resp, os);
                 }
             }
-        } catch (IOException | TransformerException | ParserConfigurationException | SAXException e) {
+        } catch (IOException | TransformerException  | SAXException e) {
             LOGGER.error("Failed to process LOCK request on {}", req.getPathInfo(), e);
             throw new ServletException("Failed to process LOCK request", e);
         }
