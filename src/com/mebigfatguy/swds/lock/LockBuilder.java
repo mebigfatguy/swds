@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
@@ -76,7 +77,7 @@ public class LockBuilder {
 			
 			if (LOGGER.isDebugEnabled()) {
 				baos.close();
-				LOGGER.debug("LOCK RESPONSE: \n{}", new String(baos.toByteArray()));
+				LOGGER.debug("LOCK RESPONSE: \n{}", new String(baos.toByteArray(), StandardCharsets.UTF_8));
 			}
 		}
 	}
