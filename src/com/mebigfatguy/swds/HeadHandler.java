@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 public class HeadHandler implements HttpHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HeadHandler.class);
 
     @Override
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) throws ServletException {

@@ -30,7 +30,7 @@ import com.mebigfatguy.swds.lock.LockManager;
 
 public class UnlockHandler implements HttpHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LockHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnlockHandler.class);
 
     @Override
     public void handleRequest(HttpServletRequest req, HttpServletResponse resp, File rootDirectory) throws ServletException {
