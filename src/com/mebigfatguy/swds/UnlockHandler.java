@@ -37,13 +37,14 @@ public class UnlockHandler implements HttpHandler {
         try {
             Map<String, String> headers = HeaderParser.getRequestHeaders(req);
             String token = headers.get("lock-token");
-            token = token.substring(token.indexOf(":") + 1);
-            if (token.endsWith(">"))
-                token = token.substring(0, token.length() - 1);
 
             if (token == null) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             } else {
+            	token = token.substring(token.indexOf(":") + 1);
+                if (token.endsWith(">"))
+                    token = token.substring(0, token.length() - 1);
+                
                 LockManager lm = LockManager.getInstance();
                 String resource = req.getPathInfo();
 
