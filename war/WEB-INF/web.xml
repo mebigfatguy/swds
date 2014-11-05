@@ -18,5 +18,12 @@
 		<servlet-name>WebDav</servlet-name>
 		<url-pattern>/webdav/*</url-pattern>
 	</servlet-mapping>
-
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>com.mebigfatguy.swds.WebDavAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+      	<servlet-name>WebDav</servlet-name>
+	</filter-mapping>
 </web-app>
