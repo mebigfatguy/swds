@@ -49,7 +49,9 @@ public class PropFindHandler implements HttpHandler {
 
             Map<String, String> headers = HeaderParser.getRequestHeaders(req);
             String depth = headers.get("depth");
-            if ("infinite".equals(depth)) {
+            if (depth == null) {
+                depth = "1";
+            } else if ("infinite".equals(depth)) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
