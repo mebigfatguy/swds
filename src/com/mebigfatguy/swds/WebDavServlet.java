@@ -44,6 +44,7 @@ public class WebDavServlet extends HttpServlet {
     static {
         HANDLERS.put(WebDavMethods.OPTIONS, new OptionsHandler());
         HANDLERS.put(WebDavMethods.PROPFIND, new PropFindHandler());
+        HANDLERS.put(WebDavMethods.MKCOL,  new MkColHandler());
         HANDLERS.put(WebDavMethods.GET, new GetHandler());
         HANDLERS.put(WebDavMethods.HEAD, new HeadHandler());
         HANDLERS.put(WebDavMethods.PUT, new PutHandler());

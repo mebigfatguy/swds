@@ -21,7 +21,8 @@ import java.util.Map;
 
 public enum WebDavMethods {
 	OPTIONS("OPTIONS"), 
-	PROPFIND("PROPFIND"), 
+	PROPFIND("PROPFIND"),
+	MKCOL("MKCOL"),
 	GET("GET"), 
 	HEAD("HEAD"), 
 	PUT("PUT"), 
