@@ -26,6 +26,7 @@ public enum WebDavMethods {
 	GET("GET"), 
 	HEAD("HEAD"), 
 	PUT("PUT"), 
+	MOVE("MOVE"),
 	LOCK("LOCK"), 
 	UNLOCK("UNLOCK"), 
 	VERSIONCONTROL("VERSION-CONTROL"),

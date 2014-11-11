@@ -48,6 +48,7 @@ public class WebDavServlet extends HttpServlet {
         HANDLERS.put(WebDavMethods.GET, new GetHandler());
         HANDLERS.put(WebDavMethods.HEAD, new HeadHandler());
         HANDLERS.put(WebDavMethods.PUT, new PutHandler());
+        HANDLERS.put(WebDavMethods.MOVE,  new MoveHandler());
         HANDLERS.put(WebDavMethods.LOCK, new LockHandler());
         HANDLERS.put(WebDavMethods.UNLOCK, new UnlockHandler());
         HANDLERS.put(WebDavMethods.VERSIONCONTROL, new VersionControlHandler());
